@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.2/lottie.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="../TouchFree_Tooling.js" type="text/javascript"></script>
+
+    <title>레인워드</title>
+</head>
+<body>
+    <video id="wrapBg" muted autoplay loop>
+        <source src="img/bg.mp4" type="video/mp4">
+    </video>
+
+    <div id="layerBg" class="layer-bg">
+        <strong>떨어지는 단어를 잡아라!</strong>
+        <p>제한시간 내에 뜻하는 단어를 클릭하세요 !</p>
+        <button class="btn-replay text" type="button" onclick="initGame()">게임시작</button>
+    </div>
+    <section>
+        <div class="keyword">
+            <img src="" id="prompt">
+        </div>
+        <div id="score2" class="score2">
+            <span>
+                <img src="img/heart-remove.png">
+                <img src="img/heart.png" id="heart3">
+            </span>
+            <span>
+                <img src="img/heart-remove.png">
+                <img src="img/heart.png" id="heart2">
+            </span>
+            <span>
+                <img src="img/heart-remove.png">
+                <img src="img/heart.png" id="heart1">
+            </span>
+        </div>
+        <div id="timer" class="time"><span id="progress" class="progress"></span></div>
+        <div id="wrap">
+            <!-- <div id="ispark" class="spark"><img src="img/clear.gif" alt=""></div>
+            <div id="iwrong" class="wrong"><img src="img/Incorrect.gif" alt=""></div> -->
+            <!-- <div id="icorrectImg" class="correct_img"><img src="img/bag.png" alt=""></div> -->
+        </div>
+        <div class="btn-wrap">
+            <button class="btn-stop" type="button" onclick="pauseGame()"><img src="img/btn-stop.png" alt="멈춤"></button>
+            <button class="btn-play" type="button" onclick="resumeGame()"><img src="img/btn-play.png" alt="재생"></button>
+            <a class="btn-replay" href="index.html"><img src="img/btn-replay.png" alt="다시시작"></a>
+        </div>
+    </section>
+    <div id="resultLayer" class="result_bg">
+        <h4>게임 종료</h4>
+        <ul>
+            <li>
+                <h5>맞춘 점수</h5>
+                <span id="score3">5</span>
+            </li>
+            <li>
+                <h5>틀린 점수</h5>
+                <span id="score4">2</span>
+            </li>
+        </ul>
+        <button class="btn-replay text" type="button" onclick="location.href='index.html'">다시하기</button>
+    </div>
+    <script src="ux.js?bv=1.1"></script>
+    <audio id="ibgm" loop style="display: none;">
+        <source src="img/bgm.mp3" type="audio/mp3">
+    </audio>
+	<audio id="wrongSound" style="display: none;">
+        <source src="img/wrong_sound_effect.mp3" type="audio/mp3">
+    </audio>
+	<audio id="correctSound" style="display: none;">
+        <source src="img/correct_sound_effect.mp3" type="audio/mp3">
+    </audio>
+	<audio id="gameOver" style="display: none;">
+        <source src="img/gameover.mp3" type="audio/mp3">
+    </audio>
+	<!-- <audio id="removeDivSound" style="display: none;">
+	        <source src="img/fall_water.wav" type="audio/wav">
+	    </audio> -->
+
+</body>
+</html>

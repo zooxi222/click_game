@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.2/lottie.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="../TouchFree_Tooling.js" type="text/javascript"></script>
+
+    <title>소림한자 대전 : 무림의 고수가 되어라</title>
+</head>
+<body>
+    <!-- <video id="wrapBg" muted autoplay loop>
+        <source src="img/bg.mp4" type="video/mp4">
+    </video> -->
+    <img src="img/bg.png" alt="" id="wrapBg">
+
+    <!-- <img src="img/bamboo.png" alt="죽창" class="bamboo" id="ibamboo"> -->
+    <div id="layerBg" class="layer-bg">
+        <strong style="font-size:70px;">초심자의 이름은 ?</strong><br/><br/><input type="text" id="userName" style="width:600px; height:100px; font-size:50px; text-align:center; border-radius:30px; border:none; padding:0 20px; font-family:'HakgyoansimDunggeunmisoTTF-B';" placeholder="예) 오늘은 포청천"/><br/><br/><button class="btn-replay text" type="button" onclick="saveName()">닉네임 저장</button>
+    </div>
+    <section>
+        <div class="keyword">
+            <img src="" id="prompt">
+        </div>
+        <div id="score2" class="score2">
+            <span>
+                <img src="img/heart-remove.png">
+                <img src="img/heart.png" id="heart3">
+            </span>
+            <span>
+                <img src="img/heart-remove.png">
+                <img src="img/heart.png" id="heart2">
+            </span>
+            <span>
+                <img src="img/heart-remove.png">
+                <img src="img/heart.png" id="heart1">
+            </span>
+        </div>
+        <div id="timer" class="time"><span id="progress" class="progress"></span></div>
+        <div id="wrap">
+            <div id="ispark" class="spark"><img src="img/clear.gif" alt=""></div>
+            <div id="iwrong" class="wrong"><img src="img/Incorrect.gif" alt=""></div>
+            <!-- <div id="icorrectImg" class="correct_img"><img src="img/bag.png" alt=""></div> -->
+
+        </div>
+        <div class="btn-wrap">
+            <button class="btn-stop" type="button" onclick="pauseGame()"><img src="img/btn-stop.png" alt="멈춤"></button>
+            <button class="btn-play" type="button" onclick="resumeGame()"><img src="img/btn-play.png" alt="재생"></button>
+            <a class="btn-replay" href="index.html"><img src="img/btn-replay.png" alt="다시시작"></a>
+        </div>
+    </section>
+    <div id="resultLayer" class="result_bg">
+        <h4 id="resultTxt">게임 종료</h4>
+        <ul>
+            <li>
+                <h5>맞춘 점수</h5>
+                <span id="score3">5</span>
+            </li>
+            <li>
+                <h5>틀린 점수</h5>
+                <span id="score4">2</span>
+            </li>
+        </ul>
+        <img src="img/clear2.gif" alt="" style="width: 500px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);  margin-left: -450px; margin-top: 50px;">
+        <button class="btn-replay text" type="button" onclick="openRanking()">랭킹확인</button>
+    </div>
+    <div id="rankingLayer" class="result_bg">
+        <h4 id="resultTxt">게임 순위</h4>
+        <ul id="rankList">
+            
+        </ul>
+        <button class="btn-replay text" type="button" onclick="location.href='index.html'">다시시작</button>
+    </div>
+    <script src="ux.js"></script>
+    <audio id="waitBgm" autoplay loop style="display: none;"></audio>
+        <source src="src/bgm-basic.mp3" type="audio/mp3">
+    </audio>
+    <audio id="ibgm" loop style="display: none;">
+        <source src="src/bgm-ch.mp3" type="audio/mp3">
+    </audio>
+	<audio id="wrongEffect" style="display: none;">
+        <source src="src/wrong_sound_effect.mp3" type="audio/mp3">
+    </audio>
+	<audio id="correctEffect" style="display: none;">
+        <source src="src/correct_sound_effect.mp3" type="audio/mp3">
+    </audio>
+    <audio id="speakSound" style="display: none;">
+        <source src="" type="audio/mp3">
+    </audio>
+    <audio id="windSound" style="display: none;">
+        <source src="src/wind_sound.mp3" type="audio/mp3">
+    </audio>
+    <audio id="windBgm" loop style="display: none;">
+        <source src="src/wind_bgm.wav" type="audio/wav">
+    </audio>
+    <audio id="clockEffect" loop style="display: none;">
+        <source src="src/clock_effect.mp3" type="audio/mp3">
+    </audio>
+	<audio id="resultSound" style="display: none;">
+        <source src="" type="audio/mp3">
+    </audio>
+	<audio id="quesSound" muted autoplay style="display: none;">
+        <source src="" type="audio/mp3">
+    </audio>
+    <audio id="startSound" style="display: none;">
+        <source src="src/start_sound.mp3" type="audio/mp3">
+    </audio>
+	<!-- <iframe src="audio/source.mp3" allow="autoplay" style="display:none" id="quesSound"></iframe> --> 
+
+    <script>
+
+       window.addEventListener('DOMContentLoaded', (event) => {
+        const audio = document.getElementById('quesSound');
+        audio.muted = true; // 음소거된 상태로 자동 재생
+        audio.play().then(() => {
+            // 자동 재생 성공
+            console.log('Audio is playing.');
+        }).catch((error) => {
+            // 자동 재생 실패
+            console.error('Audio play failed:', error);
+        });
+    });
+	
+    </script>
+    <!-- <div class="testPoi">
+        <img id="poiWrong" src="img/incorrect.gif" alt="">
+        <img id="poiCorrect" src="img/clear.gif" alt="">
+        <img id="poi" src="img/" alt="">
+    </div> -->
+</body>
+</html>
